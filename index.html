@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Simple Timer</title>
+	<script type="text/javascript">
+		function timerStart () {
+			const hours = parseInt(document.querySelector('#hours').value ? document.querySelector('#hours').value : 0, 10);
+			const minutes = parseInt(document.querySelector('#minutes').value ? document.querySelector('#minutes').value : 0, 10);
+			const seconds = parseInt(document.querySelector('#seconds').value ? document.querySelector('#seconds').value : 0, 10);
+			let duration = (hours * 3600) + (minutes * 60) + seconds;
+
+			console.log('start');
+
+			const displayTime = document.querySelector('#time');
+			const timerInterval = setInterval(() => {
+
+				let countdownHours = 0;
+				if (duration >= 3600) {
+					countdownHours = Math.trunc(duration / 3600);
+				}
+
+				let countdownMinutes = 0;
+				if (duration - countdownHours >= 60) {
+					countdownMinutes = Math.trunc((duration - (countdownHours * 3600)) / 60);
+				}
+
+				let countdownSeconds = Math.trunc(duration - (countdownHours * 3600) - (countdownMinutes * 60) );
+				displayTime.textContent = `${countdownHours}:${countdownMinutes}:${countdownSeconds}`;
+
+				if (--duration < 0) clearInterval(timerInterval);
+			}, 1000);
+		}
+
+		function reset () {
+			window.location.reload();
+		}
+	</script>
+</head>
+<body>
+	<main role="main">
+		<label>
+			<span>Hours: </span>
+			<input id="hours" placeholder="00" value="00" />	
+		</label>
+		<label>
+			<span>Minutes: </span>
+			<input id="minutes" placeholder="00" value="00" />
+		</label>
+		<label>
+			<span>Seconds: </span>
+			<input id="seconds" placeholder="00" value="00" />
+		</label>
+		<div>Timer: <span id="time">00:00:00</span></div>
+		<button onClick="timerStart()">Start</button>
+		<button onclick="reset()">Reset</button>
+	</main>
+</body>
+</html>
