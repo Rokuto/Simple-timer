@@ -2,6 +2,27 @@
 <html>
 <head>
 	<title>Simple Timer</title>
+	<style type="text/css">
+		* {
+			box-sizing: border-box;
+		}
+		body {
+			margin: 0;
+			height: 100vh;
+		}
+		.main {
+			height: 100%;
+			display: flex;
+			flex-direction: column-reverse;
+		}
+		.timer-container {
+			padding: 20px;
+		}
+		.time-input {
+			max-width: 25px;
+			text-align: center;
+		}
+	</style>
 	<script type="text/javascript">
 		function timerStart () {
 			const hours = parseInt(document.querySelector('#hours').value ? document.querySelector('#hours').value : 0, 10);
@@ -12,6 +33,7 @@
 			console.log('start');
 
 			const displayTime = document.querySelector('#time');
+			document.querySelector('#start-button').disabled = true;
 			const timerInterval = setInterval(() => {
 
 				let countdownHours = 0;
@@ -27,7 +49,11 @@
 				let countdownSeconds = Math.trunc(duration - (countdownHours * 3600) - (countdownMinutes * 60) );
 				displayTime.textContent = `${countdownHours}:${countdownMinutes}:${countdownSeconds}`;
 
-				if (--duration < 0) clearInterval(timerInterval);
+				if (--duration < 0) {
+					clearInterval(timerInterval);
+					document.querySelector('#start-button').disabled = false;
+
+				};
 			}, 1000);
 		}
 
@@ -37,22 +63,24 @@
 	</script>
 </head>
 <body>
-	<main role="main">
-		<label>
-			<span>Hours: </span>
-			<input id="hours" placeholder="00" value="00" />	
-		</label>
-		<label>
-			<span>Minutes: </span>
-			<input id="minutes" placeholder="00" value="00" />
-		</label>
-		<label>
-			<span>Seconds: </span>
-			<input id="seconds" placeholder="00" value="00" />
-		</label>
-		<div>Timer: <span id="time">00:00:00</span></div>
-		<button onClick="timerStart()">Start</button>
-		<button onclick="reset()">Reset</button>
+	<main class="main" role="main">
+		<div class="timer-container">
+			<label>
+				<span>Hours: </span>
+				<input class="time-input" id="hours" placeholder="00" value="00" />	
+			</label>
+			<label>
+				<span>Minutes: </span>
+				<input class="time-input" id="minutes" placeholder="00" value="00" />
+			</label>
+			<label>
+				<span>Seconds: </span>
+				<input class="time-input" id="seconds" placeholder="00" value="00" />
+			</label>
+			<div>Timer: <span id="time">00:00:00</span></div>
+			<button id="start-button" onClick="timerStart()">Start</button>
+			<button onclick="reset()">Reset</button>
+		</div>
 	</main>
 </body>
 </html>
